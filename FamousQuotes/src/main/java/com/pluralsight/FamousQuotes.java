@@ -44,12 +44,19 @@ public class FamousQuotes {
 
             String menuChoiceInput = scanner.nextLine().trim();
 
+            if (menuChoiceInput.length() < 1) {
+                System.out.println("\n-------------------------");
+                System.out.println("Invalid Input. Must Enter 1-10 or (R) ");
+                System.out.println("-------------------------");
+                continue;
+            }
+
             if (menuChoiceInput.matches("\\d+")) {
                 int menuChoice = Integer.parseInt(menuChoiceInput);
 
                 if (menuChoice == 1) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // --------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -58,7 +65,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // -------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -74,7 +81,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // -----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -93,7 +100,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 2) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -102,7 +109,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -118,7 +125,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -137,7 +144,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 3) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -146,7 +153,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -162,7 +169,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -181,7 +188,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 4) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -190,7 +197,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -206,7 +213,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -225,7 +232,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 5) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -234,7 +241,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -250,7 +257,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -269,7 +276,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 6) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -278,7 +285,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -294,7 +301,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -313,7 +320,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 7) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -322,7 +329,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -338,7 +345,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -357,7 +364,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 8) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -366,7 +373,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -382,7 +389,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -401,7 +408,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 9) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -410,7 +417,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -426,7 +433,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -445,7 +452,7 @@ public class FamousQuotes {
                     }
                 } else if (menuChoice == 10) {
                     System.out.println("\nDisplaying quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (menuChoice - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -454,7 +461,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -470,7 +477,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -498,7 +505,7 @@ public class FamousQuotes {
                     int showQuoteRandom = (int)((Math.random() * 10) + 1);
 
                     System.out.println("\nDisplaying random quote");
-                    // For loop to search for menuChoice in famousQuotes // -----------------------------------------------
+                    // For loop to search for menuChoice in famousQuotes // -------------------------------------------
                     for (int index = 0; index < famousQuotes.length; index += 1) {
                         if (showQuoteRandom - 1 == index) {
                             System.out.println("\n---------------------------------");
@@ -507,7 +514,7 @@ public class FamousQuotes {
                         }
                     }
 
-                    try { // Timer before displaying return to menu // ----------------------------------------------------
+                    try { // Timer before displaying return to menu // ------------------------------------------------
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         System.out.println("Code Broke");
@@ -523,7 +530,7 @@ public class FamousQuotes {
                             System.out.println("Returning to Main Screen...");
                             System.out.println("Just a sec...");
 
-                            try { // Timer before displaying return to menu // ----------------------------------------------------
+                            try { // Timer before displaying return to menu // ----------------------------------------
                                 Thread.sleep(750);
                             } catch (InterruptedException e) {
                                 System.out.println("Code Broke");
@@ -556,7 +563,7 @@ public class FamousQuotes {
         }
         System.out.println("\nExit Sequence Initiated...");
         System.out.println("Just a sec...");
-        try { // Timer before displaying return to menu // ----------------------------------------------------
+        try { // Timer before Exit Message // --------------------------------------------------------------------------
             Thread.sleep(1500);
         } catch (InterruptedException e) {
             System.out.println("Code Broke");
@@ -568,7 +575,7 @@ public class FamousQuotes {
         System.out.println("Goodbye!");
         System.out.println("---------------------------------");
 
-        try { // Timer before displaying return to menu // ----------------------------------------------------
+        try { // Timer Before System Close // --------------------------------------------------------------------------
             Thread.sleep(1500);
         } catch (InterruptedException e) {
             System.out.println("Code Broke");
