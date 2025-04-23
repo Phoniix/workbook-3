@@ -50,10 +50,10 @@ public class FamousQuotes {
                 System.out.println("-------------------------");
                 continue;
             }
-
-            if (menuChoiceInput.matches("\\d+")) {
+            // Menu 1 - 10 Choices (NOT R) ----------------------------------------------------------------------------
+            if (menuChoiceInput.matches("\\d+")) { // If Input is a Number
                 int menuChoice = Integer.parseInt(menuChoiceInput);
-
+                // Choice 1 // ----------------------------------------------------------------------------------------
                 if (menuChoice == 1) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // --------------------------------------------
@@ -98,6 +98,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 2 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 2) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -142,6 +143,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 3 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 3) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -186,6 +188,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 4 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 4) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -230,6 +233,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 5 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 5) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -274,6 +278,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 6 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 6) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -318,6 +323,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 7 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 7) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -362,6 +368,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 8 // -----------------------------------------------------------------------------------------
                 } else if (menuChoice == 8) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -406,6 +413,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 9 // ----------------------------------------------------------------------------------------
                 } else if (menuChoice == 9) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -450,6 +458,7 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Choice 10 // ---------------------------------------------------------------------------------------
                 } else if (menuChoice == 10) {
                     System.out.println("\nDisplaying quote");
                     // For loop to search for menuChoice in famousQuotes // -------------------------------------------
@@ -494,12 +503,16 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
+                // Wrong Choice (Numbers) // --------------------------------------------------------------------------
                 } else {
                     System.out.println("\n-------------------------");
                     System.out.println("Invalid Input. Enter single digit 1-10");
                     System.out.println("-------------------------");
                 }
-            } else if (!menuChoiceInput.matches("\\d+")) {
+
+// ============= // LETTER CHOICES // ==================================================================================
+
+            } else if (!menuChoiceInput.matches("\\d+")) { // Catching Letters Instead of Numbers --------------
                 char menuChoice  = menuChoiceInput.toUpperCase().charAt(0);
                 if (menuChoice == 'R') {
                     int showQuoteRandom = (int)((Math.random() * 10) + 1);
@@ -547,13 +560,12 @@ public class FamousQuotes {
                             System.out.println("-------------------------");
                         }
                     }
-
-                } else {
+                } else { // If letter is anything but 'R'.
                     System.out.println("\n-------------------------");
                     System.out.println("Invalid Input. " + menuChoice);
                     System.out.println("-------------------------");
                 }
-            } else {
+            } else { // Input is not a letter nor a number
                 System.out.println("\n-------------------------");
                 System.out.println("Invalid Input. (Y) or (N).");
                 System.out.println("-------------------------");
@@ -561,6 +573,9 @@ public class FamousQuotes {
 
 
         }
+
+// === // EXIT SEQUENCE // ============================================================================================
+
         System.out.println("\nExit Sequence Initiated...");
         System.out.println("Just a sec...");
         try { // Timer before Exit Message // --------------------------------------------------------------------------

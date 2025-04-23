@@ -14,8 +14,8 @@ public class BedtimeStories {
         Scanner scanner = new Scanner(System.in);
 
         // Introducing the System // ----------------------------------------------------------------------------------
-        boolean keepGoing = true;
-        while (keepGoing) {
+        boolean keepGoing = true; // While Loop Condition // ----------------------------------------------------------
+        while (keepGoing) { // Loop Start // Keeps App Open Until User Close // ---------------------------------------
             System.out.println("\n----------------------------------------------");
             System.out.println("Hello User! There are 3 bedtime stories available on this app!");
             System.out.println("\n(1) Goldilocks and the Three Bears");
@@ -24,7 +24,7 @@ public class BedtimeStories {
             System.out.println("Which would you like to have read? Simply enter 1-3.");
             System.out.println("\n----------------------------------------------");
             System.out.print("Enter:  ");
-            int userMenuChoice = 0;
+            int userMenuChoice = 0; // Declaring Outside Try // -------------------------------------------------------
 
             try {
                 userMenuChoice = Integer.parseInt(scanner.nextLine().trim());
@@ -38,28 +38,29 @@ public class BedtimeStories {
                 System.out.println("----------------------------------------");
             }
 
-            if (userMenuChoice == 1) {
+// ======== // Choice 1 (GOLD) =========================================================================================
+            if (userMenuChoice == 1) { // Option 1 Confirm // ---------------------------------------------------------
                 System.out.println("\nBANGER story incoming...");
                 System.out.println("Just wait, you'll see...");
 
-                try {
+                try { // Timer Before Story Is Displayed // -----------------------------------------------------------
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
                     throw new RuntimeException();
                 }
 
-                theGoldilocksMethod(scanner);
+                theGoldilocksMethod(scanner); // Method 1 Call // -----------------------------------------------------
 
-                try {
+                try { // Timer before Return Sequence // --------------------------------------------------------------
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
                     throw new RuntimeException();
                 }
 
-                boolean returnConfirm = false;
-                while (!returnConfirm) {
+                boolean returnConfirm = false; // While Loop Condition // ---------------------------------------------
+                while (!returnConfirm) { // Loop Start // Asks User to Quit or go Menu // -----------------------------
                     System.out.println("\n----------------------------------------");
                     System.out.println("Wow! I love this tale. How about you?");
                     System.out.println("Would you like to read another story?");
@@ -71,55 +72,56 @@ public class BedtimeStories {
                         System.out.println("Returning to menu...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer Before Returning to Menu // ----------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
-                        returnConfirm = true;
+                        returnConfirm = true; // Loop Break // Returns to Menu // -------------------------------------
                     } else if (userReturnChoice == 'N') {
                         System.out.println("Initiating exit sequence...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer before App Exit Sequence // ----------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
 
-                        returnConfirm = true;
-                        keepGoing = false;
+                        returnConfirm = true; // Breaks Menu Loop // Exits The Menu // --------------------------------
+                        keepGoing = false; // Breaks Run Loop // Exits The App // -------------------------------------
                     } else {
                         System.out.println("\n-----------------------------");
                         System.out.println("Invalid Input. (Y) or (N)).");
                         System.out.println("-----------------------------");
                     }
-                }
+                } // Loop End // --------------------------------------------------------------------------------------
 
-            } else if (userMenuChoice == 2) {
+// ======== // Choice 2 (HAG) =========================================================================================
+            } else if (userMenuChoice == 2) { // Choice 2 Confirmed // ------------------------------------------------
                 System.out.println("\nCRAZY story incoming...");
                 System.out.println("Just wait, you'll see...");
 
-                try {
+                try { // Timer before story is displayed // -----------------------------------------------------------
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
                     throw new RuntimeException();
                 }
 
-                theHAGMethod(scanner);
+                theHAGMethod(scanner); // Method 2 Call // ------------------------------------------------------------
 
-                try {
+                try { // Timer before Return Sequence // --------------------------------------------------------------
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
                     throw new RuntimeException();
                 }
 
-                boolean returnConfirm = false;
-                while (!returnConfirm) {
+                boolean returnConfirm = false; // While Loop Condition // ---------------------------------------------
+                while (!returnConfirm) { // Loop Start // Asks User to Quit or go Menu // -----------------------------
                     System.out.println("\n----------------------------------------");
                     System.out.println("Wow! I love this tale. How about you?");
                     System.out.println("Would you like to read another story?");
@@ -131,46 +133,47 @@ public class BedtimeStories {
                         System.out.println("Returning to menu...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer Before Menu Return // ----------------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
-                        returnConfirm = true;
+                        returnConfirm = true; // Loop Break // Takes user to Menu // ----------------------------------
                     } else if (userReturnChoice == 'N') {
                         System.out.println("Initiating exit sequence...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer before App Closes // -----------------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
 
-                        returnConfirm = true;
-                        keepGoing = false;
+                        returnConfirm = true; // Breaks Menu Loop // Exits The Menu // --------------------------------
+                        keepGoing = false; // Breaks Run Loop // Exits The App // -------------------------------------
                     } else {
                         System.out.println("\n-----------------------------");
                         System.out.println("Invalid Input. (Y) or (N)).");
                         System.out.println("-----------------------------");
                     }
-                }
-            } else if (userMenuChoice == 3) {
+                } // Loop End // --------------------------------------------------------------------------------------
+// ======== // Choice 3 (MHALL) =======================================================================================
+            } else if (userMenuChoice == 3) { // User Choice 3 Confirmed // -------------------------------------------
                 System.out.println("\nPEACEFUL story incoming...");
                 System.out.println("Just wait, you'll see...");
 
-                try {
+                try { // Timer before story is displayed // -----------------------------------------------------------
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
                     throw new RuntimeException();
                 }
 
-                theMHALLMethod(scanner);
+                theMHALLMethod(scanner); // Method 3 Call // ----------------------------------------------------------
 
-                try {
+                try { // Timer before Return Sequence // --------------------------------------------------------------
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     System.out.println("Code Broke.");
@@ -178,7 +181,7 @@ public class BedtimeStories {
                 }
 
                 boolean returnConfirm = false;
-                while (!returnConfirm) {
+                while (!returnConfirm) { // Loop Start // Asks User to Quit or go Menu // -----------------------------
                     System.out.println("\n----------------------------------------");
                     System.out.println("Wow! I love this tale. How about you?");
                     System.out.println("Would you like to read another story?");
@@ -190,26 +193,26 @@ public class BedtimeStories {
                         System.out.println("Returning to menu...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer before Return To Menu // -------------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
-                        returnConfirm = true;
+                        returnConfirm = true; // Loop Break // Takes user to Menu // ----------------------------------
                     } else if (userReturnChoice == 'N') {
                         System.out.println("Initiating exit sequence...");
                         System.out.println("Just a sec...");
 
-                        try {
+                        try { // Timer Before App Exit Sequence // ----------------------------------------------------
                             Thread.sleep(1500);
                         } catch (InterruptedException e) {
                             System.out.println("Code Broke.");
                             throw new RuntimeException();
                         }
 
-                        returnConfirm = true;
-                        keepGoing = false;
+                        returnConfirm = true; // Breaks Menu Loop // Exits The Menu // --------------------------------
+                        keepGoing = false; // Breaks Run Loop // Exits The App // -------------------------------------
                     } else {
                         System.out.println("\n-----------------------------");
                         System.out.println("Invalid Input. (Y) or (N)).");
