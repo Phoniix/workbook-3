@@ -43,11 +43,11 @@ public class SearchEngineLogger {
 
 
     public static void nLDashedLinesLong () {
-        System.out.println("\n-----------------------------------------");
-    }
+        System.out.println("\n───────────────────────────────────────────");
+    } // New Line with Dashed Lines
     public static void dashedLinesLongBottom () {
-        System.out.println("-----------------------------------------");
-    }
+        System.out.println("───────────────────────────────────────────");
+    } // Prints Dashed Lines
     public static String  welcomeMenu  (Scanner scanner) {
         System.out.println("Hello User! Welcome to Sean's Searches™");
         System.out.println("Enter a search query or enter 0 to exit.");
@@ -62,7 +62,7 @@ public class SearchEngineLogger {
             e.printStackTrace();
         }
         return userInput;
-    }
+    } // Opens welcome menu // Performs initial search // ----
     public static void timer (int time) {
         try {
             Thread.sleep(time);
@@ -74,7 +74,9 @@ public class SearchEngineLogger {
     public static boolean searcher (String userInput, Scanner scanner, BufferedWriter lilJon) throws IOException {
         boolean exitSearcher = false;
         while (!exitSearcher) {
+            nLDashedLinesLong();
             System.out.println("\nYou searched: " + userInput);
+            dashedLinesLongBottom();
             System.out.println("Search again or press 0 to exit.");
             System.out.println("(0) Exit");
             System.out.print("\nEnter:  ");
@@ -89,7 +91,7 @@ public class SearchEngineLogger {
             }
         } // Searcher Loop Ends // Exits This Method // ---------------------------------------------------------------
         return !exitSearcher;
-    }
+    } // Performs every search after initial search// can exit program //
     public static void exitSequence () {
         System.out.println("\nInitiating Exit Sequence...");
         timer(1500);
@@ -97,7 +99,7 @@ public class SearchEngineLogger {
         System.out.println("Goodbye");
         timer(1500);
 
-    }
+    } // Exit Message //
     public static void logStuff (BufferedWriter lilJon, String action) throws IOException { // ChatGPT suggest use of throws IO Exception in signature
         LocalTime timeInput = LocalTime.now();
         String time = timeInput.getHour()+ ":" + timeInput.getMinute() + ":" + timeInput.getSecond();
@@ -108,6 +110,6 @@ public class SearchEngineLogger {
         lilJon.flush(); // ChatGPT Suggested to use this to make sure it posts immediately // -------------------------
 
 
-    }
+    } // Logs stuff //
 
 }
