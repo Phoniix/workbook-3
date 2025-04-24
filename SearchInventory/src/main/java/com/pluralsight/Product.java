@@ -3,21 +3,29 @@ package com.pluralsight;
 public class Product {
 
 // Variables // -------------------------------------------------------------------------------------------------------
-    int upc = 0;
-    String itemName = "";
-    double price = 0;
+    private String sku = "";
+    private String itemName = "";
+    private double price = 0;
+    private String department = "";
+    private String getDepartment() {
+        return department;
+    }
 
-    public Product(int upc, String itemName, double price) {
-        this.upc = upc;
+
+
+    public Product(String sku, String itemName, double price, String department) {
+        this.sku = sku;
         this.itemName = itemName;
         this.price = price;
+        this.department = department;
 
 
     }
 
+
     //Getters // ------------------------------------------------------------------------------------------------------
-    public int getUpc() {
-        return upc;
+    public String getSku() {
+        return sku;
     }
     public String getItemName() {
         return itemName;
@@ -26,14 +34,23 @@ public class Product {
         return price;
     }
 
+
     // Setters // -----------------------------------------------------------------------------------------------------
-    public void setUpc(int upc) {
-        this.upc = upc;
+    public void setSku(String sku) {
+        this.sku = sku;
     }
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
     public void setPrice(double price) {
         this.price = price;
+    }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Product: " + this.sku + "|Product Name/Desc: " + this.itemName + "|Price: " + this.price + "|Department: " + this.department;
     }
 }
