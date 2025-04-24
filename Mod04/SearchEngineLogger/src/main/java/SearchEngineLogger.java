@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,92 +10,104 @@ public class SearchEngineLogger {
 
     public static void main(String[] args) {
 
-        // Introducing the variables ----------------------------------------------------------------------------------
+        //Variable Introductions // -----------------------------------------------------------------------------------
         Scanner scanner = new Scanner(System.in);
-        LocalDate dateInput = LocalDate.now();
-        String date = dateInput.toString();
-        LocalTime timeInput = LocalTime.now();
-        String time = timeInput.getHour() + ":" + timeInput.getMinute() + ":" + timeInput.getSecond();
 
-        try {
-            FileWriter lilTim = new FileWriter("logs.txt");
-            BufferedWriter lilJon = new BufferedWriter(lilTim);
-            lilJon.write("\n" + date + time + " " + "launch");
+        //Introducing the System // -----------------------------------------------------------------------------------
+        try (BufferedWriter lilJon = new BufferedWriter(new FileWriter("logs.txt", true))) { // ChatGPT Suggested to use ", true" so file opens in "Append Mode" //
 
+            logStuff(lilJon, "launch"); // Logs Launch Before Hitting Main App
 
-            //Introducing the System // -----------------------------------------------------------------------------------
-            logStuff("launch");
             boolean keepGoing = true;
             while (keepGoing) {
+                nLDashedLinesLong();
+                String search = welcomeMenu(scanner); // Opens Welcome menu // --------------------------------------------
+                dashedLinesLongBottom();
 
-                boolean welcomeMenuChoice = false;
-                while (!welcomeMenuChoice) {
-                    System.out.println("\n---------------------------------------------------");
-                    System.out.println("Hello User! Welcome to Sean's Searches™");
-                    System.out.println("\nEnter a search term or press (0) to Exit");
-                    System.out.println("(0) Exit");
-                    System.out.print("\nEnter:  ");
-                    String userInput = "";
-
-                    try {
-                        userInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
-                    } catch (Exception e) {
-                        System.out.println("\n---------------------------------");
-                        System.out.println("Invalid Input");
-                        System.out.println("---------------------------------");
-                    }
-
-                    if (userInput.equalsIgnoreCase("0")) {
-                        exitSequence();
-                        lilJon.write("\n" + date + time + " " + "exit");
-                        welcomeMenuChoice = true;
-                        keepGoing = false;
-                        return;
-                    } else {
-                        lilJon.write("\n" + date + time + " " + "search : " + userInput);
-                        System.out.println("\nYou Searched: " + userInput);
-                        System.out.println("\n\n ");
-                    }
-
+                if (search.equalsIgnoreCase("0")) {
+                    keepGoing = false;
+                } else {
+                    logStuff(lilJon, "Search : " + search);
+                    keepGoing = searcher(search, scanner, lilJon);
+                    break;
                 }
-
-            }
+            }// KeepGoing Loop End // Exits The App // ---------------------------------------------------------------
+            exitSequence();
+            logStuff(lilJon, "exit");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("AHHHHHHHHHHHHHHHH");
+            e.printStackTrace();
         }
 
     }
 
-    public static void exitSequence () {
-        System.out.println("\nExit sequence initiated...");
-        System.out.println("Just a sec...");
+
+    public static void nLDashedLinesLong () {
+        System.out.println("\n-----------------------------------------");
+    }
+    public static void dashedLinesLongBottom () {
+        System.out.println("-----------------------------------------");
+    }
+    public static String  welcomeMenu  (Scanner scanner) {
+        System.out.println("Hello User! Welcome to Sean's Searches™");
+        System.out.println("Enter a search query or enter 0 to exit.");
+        System.out.println("(0) Exit");
+        System.out.print("Enter:  ");
+        String userInput = "";
 
         try {
-            Thread.sleep(1000);
+            userInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
+        } catch (Exception e) {
+            System.out.println("Y u do dis");
+            e.printStackTrace();
+        }
+        return userInput;
+    }
+    public static void timer (int time) {
+        try {
+            Thread.sleep(time);
         } catch (InterruptedException e) {
             System.out.println("Code Broke.");
-            e.printStackTrace();
             throw new RuntimeException();
         }
-
-        System.out.println("\n----------------------------------------");
-        System.out.println("Thank you for using Sean's Searches™");
-        System.out.println("Goodbye!");
-        System.out.println("----------------------------------------");
     }
+    public static boolean searcher (String userInput, Scanner scanner, BufferedWriter lilJon) throws IOException {
+        boolean exitSearcher = false;
+        while (!exitSearcher) {
+            System.out.println("\nYou searched: " + userInput);
+            System.out.println("Search again or press 0 to exit.");
+            System.out.println("(0) Exit");
+            System.out.print("\nEnter:  ");
+            userInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
 
-    public static void logStuff (String action) {
-        LocalDate dateInput = LocalDate.now();
-        String date = dateInput.toString();
+            if (userInput.equalsIgnoreCase("0")) {
+                logStuff(lilJon, "exit sequence : " + userInput);
+                exitSearcher = true;
+                break;
+            } else {
+                logStuff(lilJon, "search : " + userInput);
+            }
+        } // Searcher Loop Ends // Exits This Method // ---------------------------------------------------------------
+        return !exitSearcher;
+    }
+    public static void exitSequence () {
+        System.out.println("\nInitiating Exit Sequence...");
+        timer(1500);
+        System.out.println("\nThank you for using Sean's Searches™");
+        System.out.println("Goodbye");
+        timer(1500);
+
+    }
+    public static void logStuff (BufferedWriter lilJon, String action) throws IOException { // ChatGPT suggest use of throws IO Exception in signature
         LocalTime timeInput = LocalTime.now();
-        String time = timeInput.getHour() + ":" + timeInput.getMinute() + ":" + timeInput.getSecond();
+        String time = timeInput.getHour()+ ":" + timeInput.getMinute() + ":" + timeInput.getSecond();
+        String date = LocalDate.now().toString();
 
-        try (BufferedWriter lilJon = new BufferedWriter(new FileWriter("logs.txt"))) {
-            lilJon.write("\n" + date + time + " " + action);
-        } catch (IOException e) {
-            System.out.println("Unable to write to file, file not found.");
-        }
+        lilJon.write(date + " " + time + " " + action);
+        lilJon.newLine(); // ChatGPT Suggested to use this to start a next line automatically // ----------------------
+        lilJon.flush(); // ChatGPT Suggested to use this to make sure it posts immediately // -------------------------
+
+
     }
-
 
 }

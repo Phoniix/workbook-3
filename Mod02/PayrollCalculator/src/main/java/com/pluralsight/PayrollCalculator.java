@@ -289,16 +289,9 @@ public class PayrollCalculator {
             }
 
             try (BufferedWriter writeToFile = new BufferedWriter( new FileWriter((fileName + fileExtension)))) {
-                // write to the file
                 writeToFile.write("ID|NAME|GROSS PAY");
-                int index = 0;
                 for (Employee employee : employeeArray) {
-                    index++;
-                    if (index == 8) {
-                        writeToFile.write(employee.getEmployeeID() + "|" + employee.getEmployeeName() + "|" + employee.getGrossPay());
-                    } else {
-                        writeToFile.write(employee.getEmployeeID() + "|" + employee.getEmployeeName() + "|" + employee.getGrossPay() + "\n");
-                    }
+                    writeToFile.write("\n" + employee.getEmployeeID() + "|" + employee.getEmployeeName() + "|" + employee.getGrossPay());
                 }
             } catch (IOException e) {
                 System.out.println("ERROR: An unexpected error occurred");
