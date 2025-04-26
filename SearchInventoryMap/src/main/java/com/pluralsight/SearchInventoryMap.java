@@ -2,14 +2,16 @@ package com.pluralsight;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class SearchInventory {
+public class SearchInventoryMap {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
         //Variable Introduction // ------------------------------------------------------------------------------------
         ArrayList<Product> inventory = getInventory();
+        HashMap<String, Product> inventoryMap = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
         BufferedReader lilJon = new BufferedReader(new FileReader("products.csv"));
         BufferedWriter lilTim = new BufferedWriter(new FileWriter("products.csv", true));
@@ -169,7 +171,7 @@ public class SearchInventory {
 
             titleNewLineTop();
             System.out.print("\nMin Price:  ");
-
+            titleLineBottom();
             double minPrice = 0;
 
             try {
@@ -177,7 +179,7 @@ public class SearchInventory {
             } catch (NumberFormatException ignored) {
                 System.out.println("Invalid Input");
             }
-            titleLineBottom();
+
             timer(1000);
 
             boolean found = false;
@@ -202,6 +204,36 @@ public class SearchInventory {
 
 
     }
+
+//    public static void searchByName (Scanner scanner, ArrayList<Product> inventory, HashMap<String, Product> inventoryMap) throws InterruptedException {
+//        boolean keepGoing = true;
+//        loadInventory(inventory);
+//
+//        timer(1000);
+//        while (keepGoing) {
+//            titleNewLineTop();
+//            System.out.println("Enter product name to search. Otherwise, Press 0 to exit");
+//            titleLineBottom();
+//            System.out.print("\n\nEnter:  ");
+//
+//            String userSearch = scanner.nextLine().trim().replaceAll("\\s+", "").toUpperCase();
+//
+//            timer(1000);
+//
+//            if (userSearch.equalsIgnoreCase("0")) {
+//                System.out.println("\nReturning to Menu...");
+//                timer(1000);
+//                break;
+//            } else {
+//
+//                boolean found = false;
+//                Product matchedProduct = inventory.get(userSearch)
+//
+//            }
+//        } // While Loop End // Exits Method // ------------------------------------------------------------------------
+//
+//
+//    }
 
     public static void addProduct(ArrayList<Product> inventory, Scanner scanner, BufferedWriter lilTim) throws InterruptedException, NumberFormatException, IOException {
         timer(1000);
@@ -242,7 +274,7 @@ public class SearchInventory {
 /// ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────///
                     String department = newProductGetNDepartment(scanner);
 
-                     titleNewLineTop();
+                    titleNewLineTop();
                     System.out.println("Compiling...");
                     titleLineBottom();
 
@@ -345,7 +377,7 @@ public class SearchInventory {
 
 
     // Back End // ----------------------------------------------------------------------------------------------------
-    public static void setArray(Scanner scanner, ArrayList<Product> inventory, BufferedReader lilJon) throws IOException {
+    public static void setArray(Scanner scanner, ArrayList<Product> inventory, BufferedReader lilJon, HashMap<String, Product> inventoryMap) throws IOException {
         lilJon = new BufferedReader(new FileReader("products.csv"));
         String lineReader = "";
         scanner = new Scanner(lilJon);
@@ -358,11 +390,20 @@ public class SearchInventory {
             try {
                 Product newProduct = new Product(tempArray[0], tempArray[1], Double.parseDouble(tempArray[2]), tempArray[3]);
                 inventory.add(newProduct);
+                String itemName = newProduct.getItemName().toUpperCase();
+                inventoryMap.put(itemName, newProduct.getSku(), new ArrayList<>());
             } catch (NumberFormatException e) { // Catch DPD // --------------------------------------------------------
                 e.printStackTrace();
             }
 
         } // For Loop End // Scrolls Through Inventory To Set Array // ------------------------------------------------
+    }
+
+    public static void loadInventory (ArrayList<Product> inventory) {
+        HashMap<String, Product> inventoryMap = new HashMap<String, Product>();
+        for (Product product : inventory) {
+            inventoryMap.put(product.getItemName(), product);
+        }
     }
 
     public static String newProductGetSKU(Scanner scanner) throws InterruptedException {
