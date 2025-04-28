@@ -1,8 +1,6 @@
 package com.pluralsight;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -10,33 +8,57 @@ import java.util.Scanner;
 
 public class AccountingLedger {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, NumberFormatException, IOException {
+        activityLogger("App Launched");
+        char function = 'z';
         Scanner scanner = new Scanner(System.in);
-        char function = welcomeScreen(scanner);
-        int firstLoop = 0;
+        ResultHelper welcome = welcomeScreen(scanner); function = welcome.getFunction();
         boolean keepGoing = true;
         while (keepGoing) {
-            if (firstLoop > 1) {
-                function = homeScreen(scanner);
-            } if (firstLoop < 1) {
-                firstLoop ++;
+            if (function == '0') {
+                ResultHelper home;
+                do {
+                    home = homeScreen(scanner);
+                    function = home.getFunction();
+                    if (function == 'X') {
+                        break;
+                    }
+                } while (function == '0');
             }
             //------------------------------------------//
-            while (function != 'X') {
                 if (function == 'D') {
-                    keepGoing = makeDeposit(scanner); if (!keepGoing) {break;}
+                    activityLogger("Opened Deposit Menu");
+                    ResultHelper makeDeposit = makeDeposit(scanner);
+                    if (programQuitter(makeDeposit)) {function = makeDeposit.getFunction();}
+                    if (!programQuitter(makeDeposit)) {function = makeDeposit.getFunction();}
                 } else if (function == 'P') {
-
+                    activityLogger("Opened Payment Menu");
+                    ResultHelper makePayment = makePayment(scanner);
+                    if (programQuitter(makePayment)) {function = makePayment.getFunction();}
+                    if (!programQuitter(makePayment)) {function = makePayment.getFunction();}
                 } else if (function == 'L') {
-                    function = accountLedgerScreen(scanner);
+                    activityLogger("Opened Account Ledger Screen");
+                    while (function == 'L') {
+                        ResultHelper ledger = LedgerScreen.ledgerScreen(scanner);
+                        if (programQuitter(ledger)) {function = ledger.getFunction();}
+                        if (!programQuitter(ledger)) {function = ledger.getFunction();}
+                    }
+                } else if (function == 'R') {
+                    activityLogger("Opened Reports Screen");
+                    ResultHelper reports = ReportsScreen.reportsScreen(scanner);
+                    if (programQuitter(reports)) {function = reports.getFunction();}
+                    if (!programQuitter(reports)) {function = reports.getFunction();}
                 } else if (function == 'X') {
                     exitSequence();
                 } else {
-                    System.out.println("\nInvalid Input. Please choose from listed options.");
+                    System.out.println("\nInvalid Input. CHECK");
                 }
-            }
+
+
+
 
             if (function == 'X') {
+                activityLogger("App Close");
                 exitSequence();
                 keepGoing = false;
             }
@@ -47,7 +69,7 @@ public class AccountingLedger {
     } // Main End // --------------------------------------------------------------------------------------------------
 
     // Welcome and Exit Sequences // ----------------------------------------------------------------------------------
-    public static char welcomeScreen (Scanner scanner) {
+    public static ResultHelper welcomeScreen (Scanner scanner) {
         char userSelection = '0';
         boolean keepGoing = true;
         while (keepGoing) {
@@ -60,24 +82,24 @@ public class AccountingLedger {
                     "(X) Exit App");
             titleLineBottom();
             System.out.print("\n\nEnter:  ");
-            userSelection = scanner.nextLine().trim().toUpperCase().charAt(0);
+            String userSelectionInput = scanner.nextLine().trim().replaceAll("\\s+", "");
+            ResultHelper usi = allowUserToExitOrReturn(userSelectionInput); if (returner(usi)) {return usi;}
+            userSelection = userSelectionInput.toUpperCase().charAt(0);
 
             if (userSelection != 'D' && userSelection !='P' && userSelection != 'L' && userSelection != 'X') {
                 System.out.println("\nPlease choose only from listed options. Or Enter X to exit.");
                 continue;
-            } else {
-                return userSelection;
             }
-
+            keepGoing = false;
         }
-        return userSelection;
+        return new ResultHelper(userSelection, true) ;
     }
-    public static char homeScreen (Scanner scanner) {
+    public static ResultHelper homeScreen (Scanner scanner) {
         char userSelection = '0';
         boolean keepGoing = true;
         while (keepGoing) {
             titleNewLineTop();
-            System.out.println("Welcome User! Use Account Ledger App to monitor and make transactions!\n" +
+            System.out.println("Use Account Ledger App to monitor and make transactions!\n" +
                     "What Service do you need today?\n\n" +
                     "(D) Make Deposit\n" +
                     "(P) Make Payment\n" +
@@ -85,7 +107,9 @@ public class AccountingLedger {
                     "(X) Exit App");
             titleLineBottom();
             System.out.print("\n\nEnter:  ");
-            userSelection = scanner.nextLine().trim().toUpperCase().charAt(0);
+            String userSelectionInput = scanner.nextLine().trim().replaceAll("\\s+", "");
+            ResultHelper usi = allowUserToExitOrReturn(userSelectionInput); if (returner(usi)) {return usi;}
+            userSelection = userSelectionInput.toUpperCase().charAt(0);
 
             if (userSelection != 'D' && userSelection !='P' && userSelection != 'L' && userSelection != 'X') {
                 System.out.println("\nPlease choose only from listed options. Or Enter X to exit.");
@@ -95,7 +119,7 @@ public class AccountingLedger {
 
             keepGoing = false;
         }
-        return userSelection;
+        return new ResultHelper(userSelection, true);
     }
     public static void exitSequence () throws InterruptedException {
         titleNewLineTop();
@@ -104,9 +128,13 @@ public class AccountingLedger {
         titleLineBottom();
         timer(1500);
     }
+    public static ResultHelper reportsScreen () {
+
+        return new ResultHelper('0', true);
+    }
 
     // Functions // ---------------------------------------------------------------------------------------------------
-    public static char accountLedgerScreen (Scanner scanner) {
+    public static char reportsSearchByScreen (Scanner scanner) {
         char userChoice = '!';
         boolean keepGoing = true;
         while (keepGoing) {
@@ -124,34 +152,16 @@ public class AccountingLedger {
 
             userChoice = scanner.nextLine().trim().toUpperCase().charAt(0);
 
-            if (userChoice != '1' || userChoice != '2' || userChoice != '3' || userChoice != '4' || userChoice != '5' || userChoice != '6' || userChoice != '0' || userChoice != 'X') {
-                System.out.println("\nPlease Choose Only From Listed Options. Or Enter X To Exit.");
-                continue;
-            } else if (userChoice != 'X' || userChoice != '0'){
-                ledgerReports(userChoice);
-            } else if (userChoice == '0' || userChoice == 'X') {
-                keepGoing = false;
-                break;
-            }
+
         } // Loop End //
         return userChoice;
     }
-    public static void ledgerReports (char userChoice) {
-        boolean keepGoing = true;
-        int firstLoop = 0;
-        while (keepGoing) {
-            if (firstLoop > 1) {
-
-            } if (firstLoop < 1) {
-                firstLoop ++;
-            }
-        }
-    }
-    public static boolean makeDeposit (Scanner scanner) throws NumberFormatException, InterruptedException {
+    public static ResultHelper makeDeposit (Scanner scanner) throws NumberFormatException, InterruptedException, IOException {
         double transactionAmnt = 0;
         boolean keepGoing = true;
         while (keepGoing) {
             titleNewLineTop();
+            System.out.println("Your Current Account Balance Is: " + currentBalance(scanner));
             System.out.println("Would you like to make a deposit?\n" +
                     "Enter deposit amount to enter 0 to return to menu.\n" +
                     "Or press (X) to close the app\n" +
@@ -162,7 +172,7 @@ public class AccountingLedger {
 
             // Catches Exit Sequence // -------------------------------------------------------------------------------
             String transactionInput = scanner.nextLine().trim().replaceAll("\\s+", "");
-            keepGoing = allowUserToExitOrReturn(scanner, transactionInput); if (!keepGoing) {return keepGoing;}
+            ResultHelper transInput = allowUserToExitOrReturn(transactionInput); if (returner(transInput)) {return transInput;}
 
             // If not Exit Sequence // --------------------------------------------------------------------------------
             try {
@@ -182,7 +192,7 @@ public class AccountingLedger {
 
                 // Input // Catches Exit / Return Request // ----------------------------------------------------------
                 String descInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
-                keepGoing = allowUserToExitOrReturn(scanner, descInput); if (!keepGoing) {return keepGoing;}
+                ResultHelper desc = allowUserToExitOrReturn(descInput); if (returner(desc)) {return desc;}
 
                 // If no exit / return call //-------------------------------------------------------------------------
                 if (descInput.length() <= 300) {
@@ -203,7 +213,7 @@ public class AccountingLedger {
             titleLineBottom();
             System.out.print("\n\nEnter:  ");
             String vendorInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
-            keepGoing = allowUserToExitOrReturn(scanner, vendorInput); if (!keepGoing) {return keepGoing;}
+            ResultHelper vend = allowUserToExitOrReturn(vendorInput); if (returner(vend)) {return vend;}
 
             if (vendorInput.equalsIgnoreCase("P")) {
                 vendor = "Personal Deposit";
@@ -221,8 +231,11 @@ public class AccountingLedger {
                         "Vendor: " + vendor);
                 lineBottom();
                 System.out.println("\nIs this info correct? (Y) or (N)\n" +
-                        "(Y)es or (N)o?");
-                char userConfirm = scanner.nextLine().trim().toUpperCase().charAt(0);
+                        "(Y)es or (N)o?\n" +
+                        promptUser());
+                String userConfirmInput = scanner.nextLine().trim().replaceAll("\\s+", "");
+                ResultHelper uci = allowUserToExitOrReturn(userConfirmInput); if (returner(uci)) {return uci;}
+                char userConfirm = userConfirmInput.toUpperCase().charAt(0);
 
                 if (userConfirm == 'Y') {
                     confirmTransaction = true;
@@ -294,7 +307,10 @@ public class AccountingLedger {
                 }
             } // TC Loop End // ---------------------------------------------------------------------------------------
 
+            transactionLogger(transactionAmnt, finalDesc, vendor);
+            timer1500();
             titleNewLineTop();
+            System.out.println("Your Payment has been posted and will be reflected in your account balance.");
             System.out.println("Thank you for your deposit and continued use of Account Ledger App!");
             System.out.println("Do you need to make another deposit? (Y) or (N)");
             System.out.println("(Y)es or (N)o?");
@@ -309,19 +325,210 @@ public class AccountingLedger {
                 timer(500);
 
             } else if (userConfirm == 'N') {
-                keepGoing = false;
+                titleNewLineTop();
+                System.out.println("Exit App or Go To Main Menu? (0) or (X).");
+                System.out.println("(X) Exit App");
+                System.out.println("(0) Main Menu");
+                titleLineBottom();
+                System.out.print("Enter:  ");
+                String userChoice = scanner.nextLine().trim().replaceAll("\\s+", "");
+                ResultHelper lastCall = allowUserToExitOrReturn(userChoice); if (returner(lastCall)) {return lastCall;}
 
             } else {
                 System.out.println("\nInvalid Input. Please choose from listed options.");
             }
 
-            return keepGoing;
+            return new ResultHelper('0', true);
         } // Keep Going End // ----------------------------------------------------------------------------------------
-        return keepGoing;
+        return new ResultHelper('0', true);
+    }
+    public static ResultHelper makePayment (Scanner scanner) throws NumberFormatException, InterruptedException, IOException {
+        double transactionAmnt = 0;
+        boolean keepGoing = true;
+        while (keepGoing) {
+            titleNewLineTop();
+            System.out.println("Your Current Account Balance Is: " + currentBalance(scanner));
+            System.out.println("Would you like to make a payment?\n" +
+                    "Enter payment amount to enter 0 to return to menu.\n" +
+                    "Or press (X) to close the app\n" +
+                    "(0) Go back\n" +
+                    "(X) Exit");
+            titleLineBottom();
+            System.out.print("\n\nEnter:  ");
+
+            // Catches Exit Sequence // -------------------------------------------------------------------------------
+            String transactionInput = scanner.nextLine().trim().replaceAll("\\s+", "");
+            ResultHelper transInput = allowUserToExitOrReturn(transactionInput); if (returner(transInput)) {return transInput;}
+
+            // If not Exit Sequence // --------------------------------------------------------------------------------
+            try {
+                transactionAmnt = Double.parseDouble(transactionInput);
+            } catch (NumberFormatException ignored) {}
+
+            timer(750);
+            boolean descDone = false;
+            String finalDesc = "";
+            while (!descDone) {
+                titleNewLineTop();
+                System.out.println("In 300 character or less. Write a short description of the transaction." +
+                        promptUser());
+                titleLineBottom();
+                System.out.print("\n\nEnter:  ");
+
+                // Input // Catches Exit / Return Request // ----------------------------------------------------------
+                String descInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
+                ResultHelper desc = allowUserToExitOrReturn(descInput); if (returner(desc)) {return desc;}
+
+                // If no exit / return call //-------------------------------------------------------------------------
+                if (descInput.length() <= 300) {
+                    finalDesc = autoLineBreakAt100UpTo300(descInput);
+                    descDone = true;
+                    break;
+                } else {
+                    System.out.println("Invalid Input or too many characters!");
+                }
+            }
+
+            timer(750);
+            String vendor = "";
+            titleNewLineTop();
+            System.out.println("Is this money going to a company or a personal withdraw?\n" +
+                    "Enter the name of the company or simply enter (P) for a Personal Withdraw\n" +
+                    promptUser());
+            titleLineBottom();
+            System.out.print("\n\nEnter:  ");
+            String vendorInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
+            ResultHelper vend = allowUserToExitOrReturn(vendorInput); if (returner(vend)) {return vend;}
+
+            if (vendorInput.equalsIgnoreCase("P")) {
+                vendor = "Personal Withdraw";
+            } else {
+                vendor = autoCapitalizeFirstLetter(vendorInput);
+            }
+
+
+            // (".*[^a-zA-Z0-9 ].*")
+            boolean confirmTransaction = false;
+            while (!confirmTransaction) {
+                newLineTop();
+                System.out.println("Amount: [$" + transactionAmnt + "] Entered\n" +
+                        "Description: " + finalDesc + "\n" +
+                        "Vendor: " + vendor);
+                lineBottom();
+                System.out.println("\nIs this info correct? (Y) or (N)\n" +
+                        "(Y)es or (N)o?\n" +
+                        promptUser());
+                String userConfirmInput = scanner.nextLine().trim().replaceAll("\\s+", "");
+                ResultHelper uci = allowUserToExitOrReturn(userConfirmInput); if (returner(uci)) {return uci;}
+                char userConfirm = userConfirmInput.toUpperCase().charAt(0);
+
+                if (userConfirm == 'Y') {
+                    confirmTransaction = true;
+                    break;
+                } else if (userConfirm == 'N') {
+                    timer1000();
+                    boolean confirmInfo = false;
+                    while (!confirmInfo) {
+                        titleNewLineTop();
+                        System.out.println("(1) Amount: [$" + transactionAmnt + "] Entered\n" +
+                                "(2) Description: " + finalDesc + "\n" +
+                                "(3) Vendor: " + vendor);
+                        System.out.println("Which part needs to be fixed?\n\n" +
+                                "(1) Amount\n" +
+                                "(2) Description\n" +
+                                "(3) Vendor\n" +
+                                "(4) Nothing, it looks fine.");
+                        titleLineBottom();
+                        char pickPart = scanner.nextLine().trim().toUpperCase().charAt(0);
+
+                        if (pickPart == '1') {
+                            titleNewLineTop();
+                            System.out.println("Please Enter Amount.");
+                            titleLineBottom();
+                            System.out.print("\n\nEnter:  ");
+                            transactionAmnt = Double.parseDouble(scanner.nextLine().trim().replaceAll("\\s+", " "));
+                            break;
+                        } else if (pickPart == '2') {
+                            boolean reEnterDesc = false;
+                            while (!reEnterDesc) {
+                                titleNewLineTop();
+                                System.out.println("In 300 character or less. Write a short description of the transaction.");
+                                titleLineBottom();
+                                System.out.print("\n\nEnter:  ");
+                                String descInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
+
+                                if (descInput.length() <= 300) {
+                                    finalDesc = autoLineBreakAt100UpTo300(descInput);
+                                    break;
+                                } else {
+                                    System.out.println("Invalid Input or too many characters!");
+                                }
+                            }
+                        } else if (pickPart == '3') {
+                            titleNewLineTop();
+                            System.out.println("Is this money coming from a company? Or a personal deposit.\n" +
+                                    "Enter the name of the company or simply enter (P) for a Personal Deposit\n");
+                            titleLineBottom();
+                            System.out.print("\n\nEnter:  ");
+                            vendorInput = scanner.nextLine().trim().replaceAll("\\s+", " ");
+
+                            if (vendorInput.equalsIgnoreCase("P")) {
+                                vendor = "Personal Withdraw";
+                            } else {
+                                vendor = autoCapitalizeFirstLetter(vendorInput);
+                            }
+
+                            break;
+                        } else if (pickPart == '4') {
+                            break;
+                        } else {
+                            System.out.println("\n Invalid Input. Please choose from listed options.");
+                        }
+
+                    }
+
+                } else {
+                    System.out.println("\nInvalid Input. (Y) or (N).");
+                }
+            } // TC Loop End // ---------------------------------------------------------------------------------------
+
+            transactionLogger(-1*(transactionAmnt), finalDesc, vendor);
+            titleNewLineTop();
+            System.out.println("Your Payment has been posted and will be reflected in your account balance.");
+            System.out.println("Thank you for your deposit and continued use of Account Ledger App!");
+            System.out.println("Do you need to make another deposit? (Y) or (N)");
+            System.out.println("(Y)es or (N)o?");
+            titleLineBottom();
+            System.out.print("\n\nEnter:  ");
+            char userConfirm = scanner.nextLine().trim().toUpperCase().charAt(0);
+
+            if (userConfirm == 'Y') {
+                newLineTop();
+                System.out.println("Setting up next transaction...");
+                lineBottom();
+                timer(500);
+
+            } else if (userConfirm == 'N') {
+                titleNewLineTop();
+                System.out.println("Exit App or Go To Main Menu? (0) or (X).");
+                System.out.println("(X) Exit App");
+                System.out.println("(0) Main Menu");
+                titleLineBottom();
+                System.out.print("Enter:  ");
+                String userChoice = scanner.nextLine().trim().replaceAll("\\s+", "");
+                ResultHelper lastCall = allowUserToExitOrReturn(userChoice); if (returner(lastCall)) {return lastCall;}
+
+            } else {
+                System.out.println("\nInvalid Input. Please choose from listed options.");
+            }
+
+            return new ResultHelper('0', true);
+        } // Keep Going End // ----------------------------------------------------------------------------------------
+        return new ResultHelper('0', true);
     }
 
     // Back End // ----------------------------------------------------------------------------------------------------
-    public static void transactionLogger (double transactionAmnt) throws IOException, NumberFormatException {
+    public static void transactionLogger (double transactionAmnt, String description, String vendor) throws IOException, NumberFormatException {
         LocalDate dateInput = LocalDate.now();
         DateTimeFormatter formatterD = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dateInput.format(formatterD);
@@ -329,8 +536,8 @@ public class AccountingLedger {
         DateTimeFormatter formatterT = DateTimeFormatter.ofPattern("hh:mm:ss");
         String time = timeInput.format(formatterT);
         try {
-            BufferedWriter lilJon = new BufferedWriter(new FileWriter("transactions.csv"));
-            lilJon.write(date + "|" + time + "|" + transactionAmnt);
+            BufferedWriter lilJon = new BufferedWriter(new FileWriter("transactions.csv", true));
+            lilJon.write("\n" + date + "|" + time + "|" + description + "|" + vendor + "|" + transactionAmnt);
             lilJon.flush();
         } catch (IOException ignored) {}
     }
@@ -342,48 +549,42 @@ public class AccountingLedger {
         DateTimeFormatter formatterT = DateTimeFormatter.ofPattern("hh:mm:ss");
         String time = timeInput.format(formatterT);
         try {
-            BufferedWriter lilJon = new BufferedWriter(new FileWriter("logs.txt"));
+            BufferedWriter lilJon = new BufferedWriter(new FileWriter("logs.txt", true));
             lilJon.write(date + "|" + time + "|" + action);
             lilJon.flush();
         } catch (IOException ignored) {}
     }
-    public static double currentBalance (Scanner scanner) {
+    public static double currentBalance (Scanner scanner) throws IOException {
         double transaction = 0;
-        double totalDebits = 0;
-        double totalDeposits = 0;
-        scanner = new Scanner("transactions.csv");
+        BufferedReader lilTim = new BufferedReader(new FileReader("transactions.csv"));
+        scanner = new Scanner(lilTim);
         scanner.nextLine();
 
-        for (int i = 0; scanner.hasNextLine(); i++) {
-            String [] input = scanner.nextLine().split("|");
-            try {
-                transaction = Double.parseDouble(input[4]);
-            } catch (NumberFormatException ignored) {}
-
-            if (transaction > 0) {
-                totalDeposits += transaction;
-            } else if (transaction < 0) {
-                totalDebits += transaction;
+        while (scanner.hasNextLine()) {
+            String input = scanner.nextLine();
+            String [] inputParts = input.split("\\|");
+            if (inputParts.length > 4) {
+                transaction += Double.parseDouble(inputParts[4]);
             }
         }
-        double balance = totalDeposits + totalDebits;
+
+        double balance = transaction;
         return balance;
     }
-    public static boolean allowUserToExitOrReturn (Scanner scanner, String input) throws NumberFormatException {
+    public static ResultHelper allowUserToExitOrReturn (String input) throws NumberFormatException {
         boolean keepGoing = true;
         input = input.trim().replaceAll("\\s+", " ");
-        if (input.equalsIgnoreCase("X") || input.equalsIgnoreCase("0")) {
-            if (input.equalsIgnoreCase("0")) {System.out.println("Returning to menu..."); timer1500();}
-            keepGoing = false;
-        }
-        char dcInput = input.toUpperCase().charAt(0);
-        if (dcInput == '0' || dcInput == 'X') {
-            if (dcInput == '0') {System.out.println("Returning to menu..."); timer1500();}
-            keepGoing = false;
-        }
-        return keepGoing;
+        char function = input.toUpperCase().charAt(0);
+        if (function == '0') {keepGoing = true;}
+        if (function == 'X') {keepGoing = false;}
+        return new ResultHelper(function, keepGoing);
     }
-
+    public static boolean returner (ResultHelper instance) {
+        return instance.getFunction() == '0' || instance.getFunction() == 'X';
+    }
+    public static boolean programQuitter (ResultHelper mainInstance) {
+        return mainInstance.getFunction() == 'X';
+    }
 
     // Design Elements // ---------------------------------------------------------------------------------------------
     public static void titleNewLineTop () {
